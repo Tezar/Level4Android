@@ -1,6 +1,6 @@
 package no.hig.level;
 
-import com.example.level.R;
+
 
 import android.os.Bundle;
 import android.app.Activity;
