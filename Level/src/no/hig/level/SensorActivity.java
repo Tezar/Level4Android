@@ -1,4 +1,4 @@
-package com.example.level;
+package no.hig.level;
 
 import android.app.Activity;
 import android.content.Context;
