@@ -1,13 +1,13 @@
 package no.hig.level;
 
 
-
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.view.Menu;
+import android.widget.TextView;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -46,6 +46,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     public void onSensorChanged(SensorEvent event) {
+    	
+    	TextView label = (TextView) findViewById(R.id.textView1);
+    	label.setText( Float.toString(event.values[0]) );
+    	
+    	label = (TextView) findViewById(R.id.textView2);
+    	label.setText( Float.toString(event.values[1]) );
+    	
+    	label = (TextView) findViewById(R.id.textView3);
+    	label.setText( Float.toString(event.values[2]) );
     }
     
     
