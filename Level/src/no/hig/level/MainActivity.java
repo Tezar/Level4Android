@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,19 +28,26 @@ public class MainActivity extends Activity implements SensorEventListener {
     	mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     	mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     	
-    	//todo: test if sensor really exists
-
+    	
+    	if(mSensor == null){
+    		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
+    	}
+    	
     }
 
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        if(mSensor != null){
+        	mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        }
     }
 
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(this);
+        if(mSensor != null){
+        	mSensorManager.unregisterListener(this);
+        }
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
