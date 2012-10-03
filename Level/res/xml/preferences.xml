@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<ListPreference
+        android:key="pref_speed"
+        android:title="@string/pref_speed"
+        android:dialogTitle="@string/pref_syncConnectionType"
+        android:entries="@array/pref_speed_entries"
+        android:entryValues="@array/pref_speed_value"
+        android:defaultValue="@string/natural" />
+</PreferenceScreen>

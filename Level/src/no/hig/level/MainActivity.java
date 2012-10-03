@@ -28,11 +28,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     	mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     	mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     	
-    	
     	if(mSensor == null){
     		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
     	}
-    	
     }
 
 
