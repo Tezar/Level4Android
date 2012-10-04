@@ -3,8 +3,8 @@
 	<ListPreference
         android:key="pref_speed"
         android:title="@string/pref_speed"
-        android:dialogTitle="@string/pref_syncConnectionType"
+        android:dialogTitle="@string/pref_speedType"
         android:entries="@array/pref_speed_entries"
         android:entryValues="@array/pref_speed_value"
-        android:defaultValue="@string/natural" />
+        />
 </PreferenceScreen>
