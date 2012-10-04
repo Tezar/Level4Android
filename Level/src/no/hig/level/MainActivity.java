@@ -1,25 +1,24 @@
 package no.hig.level;
 
 
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import no.hig.level.PreferencesActivity;
-
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -96,6 +95,27 @@ public class MainActivity extends Activity implements SensorEventListener {
 	        default:
 	        	return super.onOptionsItemSelected(item);
     	}
+    }
+    
+    void setBubble(float percent) {
+    	RelativeLayout rl = (RelativeLayout) findViewById(R.id.my_relative_layout); 
+
+    	ImageView iv = (ImageView) findViewById(R.id.imageView1);
+
+    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40); 
+    	params.leftMargin = 50; 
+    	params.topMargin = 60; 
+    	rl.addView(iv, params);
+    	
+    	Display display = getWindowManager().getDefaultDisplay(); 
+    	Point size = new Point(); 
+    	((Object) display).getSize(size); 
+    	float width = size.x; 
+    	float height = size.y; 
+    	
+    	params.leftMargin = size.x * (100 + 0.5)  + iv.getWidth() * 0.5; 
+    	
+
     }
     
 }

@@ -1,9 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wood5" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:src="@drawable/ic_action_search" />
+    
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -40,5 +49,7 @@
         android:layout_alignLeft="@+id/textView2"
         android:text="TextView"
         android:textColor="#FF0000FF" />
+
+    
 
 </RelativeLayout>
