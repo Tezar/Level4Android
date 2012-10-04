@@ -4,9 +4,11 @@ package no.hig.level;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -38,10 +40,21 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     
+    
+
+    
     protected void onResume() {
         super.onResume();
         if(mSensor != null){
-        	mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        	int speed = Integer.parseInt(prefs.getString("pref_speed", null));
+        	
+        	int speedConstants[] = {SensorManager.SENSOR_DELAY_UI,SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_GAME, SensorManager.SENSOR_DELAY_FASTEST };
+
+        	assert(speed < speedConstants.length );
+        	
+        	mSensorManager.registerListener(this, mSensor, speedConstants[speed]);
+        	Toast.makeText(this, "speed"+speed, Toast.LENGTH_LONG).show();
         }
     }
 

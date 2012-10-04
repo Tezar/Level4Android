@@ -2,8 +2,8 @@
 <resources>
 	<string-array name="pref_speed_entries">
 		 <item>@string/pref_optimal</item>
-		 <item>@string/pref_middle</item>
 		 <item>@string/pref_normal</item>
+		 <item>@string/pref_middle</item>
 		 <item>@string/pref_fastest</item>
 	</string-array>
 	<string-array name="pref_speed_value">
