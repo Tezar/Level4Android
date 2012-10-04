@@ -12,11 +12,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,11 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
+	private int squareSize;
+	private int centerX;
+	private int centerY;
+	private ImageView bubble;
+	private LayoutParams layParams;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     	if(mSensor == null){
     		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
     	}
+    	
+    	
     }
 
     
@@ -55,6 +64,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         	mSensorManager.registerListener(this, mSensor, speedConstants[speed]);
         	Toast.makeText(this, "speed"+speed, Toast.LENGTH_LONG).show();
         }
+        prepareBubble();
     }
 
     protected void onPause() {
@@ -77,6 +87,11 @@ public class MainActivity extends Activity implements SensorEventListener {
     	
     	label = (TextView) findViewById(R.id.textView3);
     	label.setText( Float.toString(event.values[2]) );
+    	
+    	
+    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY+Math.round(squareSize*event.values[1]), 0, 0);
+    	bubble.setLayoutParams(layParams);
+    	 	
     }
     
     
@@ -97,24 +112,22 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     }
     
-    void setBubble(float percent) {
-    	RelativeLayout rl = (RelativeLayout) findViewById(R.id.my_relative_layout); 
+    void prepareBubble() {
 
-    	ImageView iv = (ImageView) findViewById(R.id.imageView1);
+    	 DisplayMetrics metrics = new DisplayMetrics();
+         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+         int width = metrics.widthPixels;
+         int height = metrics.heightPixels;
 
-    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40); 
-    	params.leftMargin = 50; 
-    	params.topMargin = 60; 
-    	rl.addView(iv, params);
+         layParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     	
-    	Display display = getWindowManager().getDefaultDisplay(); 
-    	Point size = new Point(); 
-    	((Object) display).getSize(size); 
-    	float width = size.x; 
-    	float height = size.y; 
-    	
-    	params.leftMargin = size.x * (100 + 0.5)  + iv.getWidth() * 0.5; 
-    	
+    	bubble = (ImageView) findViewById(R.id.bubble);
+
+    	squareSize = Math.min(width, height);
+    	centerX = width/2;
+    	centerY = height/2;
+    	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+    	//rl.setLayoutParams(params);
 
     }
     

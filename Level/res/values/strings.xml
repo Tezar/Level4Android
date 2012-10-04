@@ -10,8 +10,7 @@
     <string name="pref_speed">Sensor speed</string>
     <string name="pref_speedType">Choose sensor speed</string>
     
-    <string name="natural">TODO</string>
-    
+   	<string name="pref_speed_summary">Faster speed will make app more responsive but will be less battery friendly</string>
     
 	<string name="pref_optimal">Optimal</string>
 	<string name="pref_normal">Normal</string>
