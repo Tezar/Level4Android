@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onResume();
         if(mSensor != null){
         	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        	int speed = Integer.parseInt(prefs.getString("pref_speed", null));
+        	int speed = Integer.parseInt(prefs.getString("pref_speed", "0"));
         	
         	int speedConstants[] = {SensorManager.SENSOR_DELAY_UI,SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_GAME, SensorManager.SENSOR_DELAY_FASTEST };
 
