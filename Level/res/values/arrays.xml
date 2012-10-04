@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string-array name="pref_speed_entries">
-		 <item>Option 1</item>
-		 <item>Option 2</item>
-		 <item>Option 3</item>
+		 <item>@string/pref_optimal</item>
+		 <item>@string/pref_middle</item>
+		 <item>@string/pref_normal</item>
+		 <item>@string/pref_fastest</item>
 	</string-array>
 	<string-array name="pref_speed_value">
  		<item>1 is selected</item>

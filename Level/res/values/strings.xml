@@ -13,6 +13,10 @@
     <string name="natural">TODO</string>
     
     
+	<string name="pref_optimal">Optimal</string>
+	<string name="pref_normal">Normal</string>
+	<string name="pref_middle">Faster</string>
+	<string name="pref_fastest">Fastest</string>
 
     
 </resources>
