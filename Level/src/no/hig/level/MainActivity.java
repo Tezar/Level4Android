@@ -6,9 +6,13 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import no.hig.level.PreferencesActivity;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -70,4 +74,15 @@ public class MainActivity extends Activity implements SensorEventListener {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+	        case R.id.menu_settings:
+	        	startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+	        return true;
+	        default:
+	        	return super.onOptionsItemSelected(item);
+    	}
+    }
+    
 }
