@@ -7,8 +7,9 @@
 		 <item>@string/pref_fastest</item>
 	</string-array>
 	<string-array name="pref_speed_value">
- 		<item>1 is selected</item>
- 		<item>2 is selected</item>
- 		<item>3 is selected</item>
+ 		<item>0</item>
+ 		<item>1</item>
+ 		<item>2</item>
+ 		<item>3</item>
  	</string-array>
 </resources>

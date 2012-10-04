@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     }
 
-
+    
     protected void onResume() {
         super.onResume();
         if(mSensor != null){

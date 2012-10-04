@@ -6,5 +6,6 @@
         android:dialogTitle="@string/pref_speedType"
         android:entries="@array/pref_speed_entries"
         android:entryValues="@array/pref_speed_value"
-        />
+        
+        android:defaultValue="0"/>
 </PreferenceScreen>
