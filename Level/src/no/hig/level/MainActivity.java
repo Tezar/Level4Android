@@ -2,6 +2,7 @@ package no.hig.level;
 
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import android.app.Activity;
@@ -35,9 +36,13 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
-	private int halfSquareSize;
+    
+    private int halfSquareSizeX;
+    private int halfSquareSizeY;
+	
 	private int centerX;
 	private int centerY;
+	
 	private ImageView bubbley;
 	private ImageView bubblex;
 	private LayoutParams layParamsY;
@@ -50,7 +55,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	private ProgressDialog  calibrationDialog;
 	private int calibrationPosition;
-	private final int BUFFER_SIZE = 50;
+	private final int BUFFER_SIZE = 200;
 	private float[] calibrationBufferX;
 	private float[] calibrationBufferY;
 	private float[] calibrationBufferZ;
@@ -71,6 +76,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	/* Handler for moving bubble around */
 	class DisplayHandler implements SensorHandler{
+		private DecimalFormat df;
+
+		public DisplayHandler() {
+	    	//formater so we dont have to construct it everytime
+	    	df = new DecimalFormat(" #00.00°;-#00.00°");
+		}
+		
 		public void onEvent(SensorEvent event){
 			
 			event.values[0] -= calX;
@@ -78,15 +90,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 			event.values[2] -= calZ;
 			
 			//scale to 0..1
-			event.values[0] /= 10; 
-			event.values[1] /= 10;
-			event.values[2] /= 10;
+			event.values[0] /= 9.81; 
+			event.values[1] /= 9.81;
+			event.values[2] /= 9.81;
 			
 	    	TextView label = (TextView) findViewById(R.id.textView1);
-	    	label.setText( Float.toString(event.values[0]) );
+	    	
+	    	
+	    	
+	    	label.setText( df.format(90-Math.atan2(event.values[2] , event.values[0])/Math.PI*180) );
 	    	
 	    	label = (TextView) findViewById(R.id.textView2);
-	    	label.setText( Float.toString(event.values[1]) );
+	    	label.setText( df.format(90-Math.atan2(event.values[2] , event.values[1])/Math.PI*180) );
+	    	
 	    	
 	    	label = (TextView) findViewById(R.id.textView3);
 	    	label.setText( Float.toString(event.values[2]) );
@@ -94,9 +110,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	
 	    	//layParams.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
 	    	//bubble moves along the y axis
-	    	layParamsY.setMargins(verticalBarPosX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
+	    	layParamsY.setMargins(verticalBarPosX, centerY-Math.round(halfSquareSizeY*event.values[1])-offY, 0, 0);
 	    	//bubble moves along the X axis
-	    	layParamsX.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, horizontalBarPosY, 0, 0);
+	    	layParamsX.setMargins(centerX+Math.round(halfSquareSizeX*event.values[0])-offX, horizontalBarPosY, 0, 0);
 	    
 	    	bubbley.setLayoutParams(layParamsY);
 	    	bubblex.setLayoutParams(layParamsX);
@@ -138,6 +154,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     	if(mSensor == null){
     		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
     	}
+    	
+
     	
     	currentHandler = new DisplayHandler();
     	
@@ -203,7 +221,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	        int height = rl.getHeight();
 
     	         
-    	    	halfSquareSize = Math.min(width, height)/2;
+    	    	
     	    	centerX = width/2;
     	    	centerY = height/2;
     	    	
@@ -219,6 +237,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	 vto = verticalBar.getViewTreeObserver();
     	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
     	    public boolean onPreDraw() {
+    	    	halfSquareSizeY =  Math.round(verticalBar.getMeasuredHeight()*0.20f);
     	    	verticalBarPosX = verticalBar.getLeft() + (verticalBar.getWidth()/2) - bubblex.getWidth()/2;
 
     	        return true;
@@ -229,6 +248,7 @@ public class MainActivity extends Activity implements SensorEventListener {
       	vto = horizontalBar.getViewTreeObserver();
     	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
     	    public boolean onPreDraw() {
+    	    	halfSquareSizeX =   Math.round(horizontalBar.getMeasuredWidth()*0.3f);
     	    	horizontalBarPosY = horizontalBar.getTop() + (horizontalBar.getHeight()/2) - bubbley.getHeight()/2 ;
     	        return true;
     	    }
@@ -282,14 +302,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     	calY = calibrationBufferY[ BUFFER_SIZE / 2];
     	
     	Arrays.sort(calibrationBufferZ);
-    	calZ = calibrationBufferZ[ BUFFER_SIZE / 2];    	
+    	//calibrate to reflect newton law
+    	calZ =  (calibrationBufferZ[ BUFFER_SIZE / 2]-9.81f);    	
     	
     	//save our calibration values
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     	SharedPreferences.Editor editor = prefs.edit();
     	editor.putFloat("calibration_x", calX);
     	editor.putFloat("calibration_y", calY);
-    	editor.putFloat("calibration_Z", calZ);
+    	editor.putFloat("calibration_z", calZ);
         editor.commit();
 
     	
