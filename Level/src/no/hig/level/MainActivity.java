@@ -52,6 +52,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private float calY=0;
 	private float calZ=0;
 	
+	
 	/////////////////////////////
 
 	interface SensorHandler{
@@ -66,6 +67,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 			event.values[1] -= calY;
 			event.values[2] -= calZ;
 			
+			//scale to 0..1
+			event.values[0] /= 10; 
+			event.values[1] /= 10;
+			event.values[2] /= 10;
+			
 	    	TextView label = (TextView) findViewById(R.id.textView1);
 	    	label.setText( Float.toString(event.values[0]) );
 	    	
@@ -76,7 +82,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
 	    	
-	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[1]), centerY+Math.round(squareSize*event.values[0]), 0, 0);
+	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY-Math.round(squareSize*event.values[1]), 0, 0);
 	    	bubble.setLayoutParams(layParams);
 		}
 	}
@@ -106,7 +112,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         
     	mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-    	mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+    	mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
     	
     	if(mSensor == null){
     		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
