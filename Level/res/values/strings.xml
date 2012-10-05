@@ -16,6 +16,8 @@
 	<string name="pref_normal">Normal</string>
 	<string name="pref_middle">Faster</string>
 	<string name="pref_fastest">Fastest</string>
+	
+	<string name="calibrating">Calibrating...</string>
 
     
 </resources>

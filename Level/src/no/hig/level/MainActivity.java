@@ -1,11 +1,15 @@
 package no.hig.level;
 
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -37,8 +41,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	
 	private ProgressDialog  calibrationDialog;
-	private int[] calibrationBuffer;
-	
+	private int calibrationPosition;
+	private final int BUFFER_SIZE = 50;
+	private float[] calibrationBufferX;
+	private float[] calibrationBufferY;
+	private float[] calibrationBufferZ;
 	
 	private float calX=0;
 	private float calY=0;
@@ -54,9 +61,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	class DisplayHandler implements SensorHandler{
 		public void onEvent(SensorEvent event){
 			
-			event.values[0] += calX;
-			event.values[1] += calY;
-			event.values[2] += calZ;
+			event.values[0] -= calX;
+			event.values[1] -= calY;
+			event.values[2] -= calZ;
 			
 	    	TextView label = (TextView) findViewById(R.id.textView1);
 	    	label.setText( Float.toString(event.values[0]) );
@@ -75,6 +82,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	class CalibrationHandler implements SensorHandler{
 		public void onEvent(SensorEvent event){
+			calibrationBufferX[calibrationPosition] =  event.values[0];
+			calibrationBufferY[calibrationPosition] =  event.values[1];
+			calibrationBufferZ[calibrationPosition] =  event.values[2];
+			
+			calibrationDialog.setProgress(calibrationPosition);
+			
+			calibrationPosition++;
+			if(calibrationPosition>=BUFFER_SIZE){
+				stopCalibration();	
+			}
 			
 		}
 	}	
@@ -95,6 +112,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     	
     	currentHandler = new DisplayHandler();
+    	startCalibration();
     }
 
     
@@ -129,11 +147,47 @@ public class MainActivity extends Activity implements SensorEventListener {
     /* function for calibration */
     
     public void startCalibration(){
-    //todo:	
+    	//create calibration buffers
+    	calibrationBufferX = new float[BUFFER_SIZE];
+    	calibrationBufferY = new float[BUFFER_SIZE];
+    	calibrationBufferZ = new float[BUFFER_SIZE];
+    	calibrationPosition = 0;
+    	
+    	Resources res = getResources();
+    	calibrationDialog =  new ProgressDialog( this );
+    	calibrationDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+    	calibrationDialog.setMessage(res.getString(R.string.calibrating));
+    	calibrationDialog.setMax(BUFFER_SIZE);
+    	calibrationDialog.setCancelable(false);
+    	
+    	calibrationDialog.show();
+    	
+    	currentHandler = new CalibrationHandler();
+    	
+    	
+    	
     }
     
     public void stopCalibration(){
-    	//todo:
+    	//return handler to displaying so this function isn't called mre than once
+    	currentHandler = new DisplayHandler();
+
+    	Arrays.sort(calibrationBufferX);
+    	calX = calibrationBufferX[ BUFFER_SIZE / 2];
+    	
+    	Arrays.sort(calibrationBufferY);
+    	calY = calibrationBufferY[ BUFFER_SIZE / 2];
+    	
+    	Arrays.sort(calibrationBufferZ);
+    	calZ = calibrationBufferZ[ BUFFER_SIZE / 2];    	
+    	
+    	//hide our dialog
+    	calibrationDialog.dismiss();
+    	
+    	// delete reference to array, so they get erased 
+    	calibrationBufferX = null;
+    	calibrationBufferY = null;
+    	calibrationBufferZ = null;
     }
     
     
