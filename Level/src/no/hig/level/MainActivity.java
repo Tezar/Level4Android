@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -32,7 +33,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
-	private int squareSize;
+	private int halfSquareSize;
 	private int centerX;
 	private int centerY;
 	private ImageView bubble;
@@ -51,6 +52,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private float calX=0;
 	private float calY=0;
 	private float calZ=0;
+	private int offX;
+	private int offY;
 	
 	
 	/////////////////////////////
@@ -82,7 +85,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
 	    	
-	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY-Math.round(squareSize*event.values[1]), 0, 0);
+	    	layParams.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
 	    	bubble.setLayoutParams(layParams);
 		}
 	}
@@ -99,7 +102,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 			if(calibrationPosition>=BUFFER_SIZE){
 				stopCalibration();	
 			}
-			
 		}
 	}	
 	
@@ -119,6 +121,12 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     	
     	currentHandler = new DisplayHandler();
+    	
+    	//get images dimension so we can offset it for accurate centering 
+    	BitmapDrawable bd=(BitmapDrawable) this.getResources().getDrawable(R.drawable.bubble);
+    	offX=bd.getBitmap().getHeight() / 2 ;
+    	offY=bd.getBitmap().getWidth() / 2 ;
+
     }
 
     
@@ -241,7 +249,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	
     	bubble = (ImageView) findViewById(R.id.bubble);
 
-    	squareSize = Math.min(width, height);
+    	halfSquareSize = Math.min(width, height)/2;
     	centerX = width/2;
     	centerY = height/2;
     	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
