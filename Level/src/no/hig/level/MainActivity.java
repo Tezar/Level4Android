@@ -188,27 +188,35 @@ public class MainActivity extends Activity implements SensorEventListener {
     	
     	MediaPlayer mpLeveled = MediaPlayer.create(this, R.raw.clank);
 
-    	 DisplayMetrics metrics = new DisplayMetrics();
-         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-         int width = metrics.widthPixels;
-         int height = metrics.heightPixels;
-
-         layParamsY = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-         layParamsX = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layParamsY = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layParamsX = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          
          
     	bubbley = (ImageView) findViewById(R.id.bubbley);
     	bubblex = (ImageView) findViewById(R.id.bubblex);
 
-    	halfSquareSize = Math.min(width, height)/2;
-    	centerX = width/2;
-    	centerY = height/2;
-    	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-    	//rl.setLayoutParams(params);
+    	final RelativeLayout rl = (RelativeLayout) findViewById(R.id.my_relative_layout);
+    	ViewTreeObserver vto = rl.getViewTreeObserver();
+    	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+    	    public boolean onPreDraw() {
+    	        int width =  rl.getWidth();
+    	        int height = rl.getHeight();
 
+    	         
+    	    	halfSquareSize = Math.min(width, height)/2;
+    	    	centerX = width/2;
+    	    	centerY = height/2;
+    	    	
+    	        return true;
+    	    }
+    	});
+
+
+    	
+    	
     	//finding the middle of the bubble bars
     	final View verticalBar = findViewById(R.id.bar_vertical);
-    	ViewTreeObserver vto = verticalBar.getViewTreeObserver();
+    	 vto = verticalBar.getViewTreeObserver();
     	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
     	    public boolean onPreDraw() {
     	    	verticalBarPosX = verticalBar.getLeft() + (verticalBar.getWidth()/2) - bubblex.getWidth()/2;
