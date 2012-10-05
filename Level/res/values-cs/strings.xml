@@ -1,6 +1,23 @@
 <resources>
-
-    <string name="hello_world">Ahoj světe!</string>
+    <string name="app_name">Vodováha</string>
+    <string name="menu_settings">Nastavení</string>
     <string name="title_activity_main">Vodováha</string>
+    <string name="sensor_not_found">Potřebný sensor nenalezen</string>
+    
+    <string name="preferences_activity_main">Nastavení</string>
+    <string name="pref_speed">Rychlost snímání</string>
+    <string name="pref_speedType">Vyberte rychlost snímání</string>
+    
+   	<string name="pref_speed_summary">Při vyšší rychlost bude mít aplikace živější odezvu, ale bude více náročná na baterii</string>
+    
+	<string name="pref_optimal">Optimální</string>
+	<string name="pref_normal">Normální</string>
+	<string name="pref_middle">Rychlejší</string>
+	<string name="pref_fastest">Nejrychlejší</string>
+	
+	<string name="calibrating">Kalibruji…</string>
+	
+		<string name="menu_calibrate">Kalibrace</string>
+
 
 </resources>

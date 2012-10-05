@@ -6,8 +6,8 @@
     <string name="sensor_not_found">Bezonata sentilo neestis trovita</string>
     
     <string name="preferences_activity_main">Agordoj</string>
-    <string name="pref_speed">Sensil repideco</string>
-    <string name="pref_speedType">Elektu repidecon de sensilo</string>
+    <string name="pref_speed">Sensa repideco</string>
+    <string name="pref_speedType">Elektu repidecon de sensado</string>
     
    	<string name="pref_speed_summary">Pli rapida sensilo faros aplikaĵon pli rapidan sed malpli bateri-amika</string>
     
