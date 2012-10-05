@@ -248,6 +248,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	//rl.setLayoutParams(params);
 
     	
+    	
     	//when the bubble is at the leveled point, place the following method
     	mpLeveled.start();
     }
