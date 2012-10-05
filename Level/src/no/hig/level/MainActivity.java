@@ -36,6 +36,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private SensorHandler currentHandler;
 	
 	
+	private ProgressDialog  calibrationDialog;
+	private int[] calibrationBuffer;
+	
+	
+	private float calX=0;
+	private float calY=0;
+	private float calZ=0;
+	
 	/////////////////////////////
 
 	interface SensorHandler{
@@ -45,6 +53,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	class DisplayHandler implements SensorHandler{
 		public void onEvent(SensorEvent event){
+			
+			event.values[0] += calX;
+			event.values[1] += calY;
+			event.values[2] += calZ;
+			
 	    	TextView label = (TextView) findViewById(R.id.textView1);
 	    	label.setText( Float.toString(event.values[0]) );
 	    	
@@ -111,6 +124,17 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
     }
 
+    
+    
+    /* function for calibration */
+    
+    public void startCalibration(){
+    //todo:	
+    }
+    
+    public void stopCalibration(){
+    	//todo:
+    }
     
     
     /* callbacks for Sensors */
