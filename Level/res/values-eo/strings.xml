@@ -1,0 +1,24 @@
+<resources>
+
+    <string name="app_name">Nivelilo</string>
+    <string name="menu_settings">Agordoj</string>
+    <string name="title_activity_main">Nivelilo</string>
+    <string name="sensor_not_found">Bezonata sentilo neestis trovita</string>
+    
+    <string name="preferences_activity_main">Agordoj</string>
+    <string name="pref_speed">Sensil repideco</string>
+    <string name="pref_speedType">Elektu repidecon de sensilo</string>
+    
+   	<string name="pref_speed_summary">Pli rapida sensilo faros aplikaĵon pli rapidan sed malpli bateri-amika</string>
+    
+	<string name="pref_optimal">Optimala</string>
+	<string name="pref_normal">Normala</string>
+	<string name="pref_middle">Pli rapida</string>
+	<string name="pref_fastest">Plej radpida</string>
+	
+	<string name="calibrating">Kalibrado…</string>
+	
+		<string name="menu_calibrate">Kalibri</string>
+
+    
+</resources>
