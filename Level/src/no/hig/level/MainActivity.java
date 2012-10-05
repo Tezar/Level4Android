@@ -15,6 +15,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -220,6 +221,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
     
     void prepareBubble() {
+    	
+    	MediaPlayer mpLeveled = MediaPlayer.create(this, R.raw.clank);
 
     	 DisplayMetrics metrics = new DisplayMetrics();
          getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -236,6 +239,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
     	//rl.setLayoutParams(params);
 
+    	
+    	//when the bubble is at the leveled point, place the following method
+    	mpLeveled.start();
     }
     
 }
