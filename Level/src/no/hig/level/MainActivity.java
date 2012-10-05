@@ -57,12 +57,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	
 	/////////////////////////////
-
+	/*interface for our handlers */
 	interface SensorHandler{
 		void onEvent(SensorEvent event);
 		
 	}
 	
+	/* Handler for moving bubble around */
 	class DisplayHandler implements SensorHandler{
 		public void onEvent(SensorEvent event){
 			
@@ -90,6 +91,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 	
+	/* handler for storing data for sensors and calibrating them */
 	class CalibrationHandler implements SensorHandler{
 		public void onEvent(SensorEvent event){
 			calibrationBufferX[calibrationPosition] =  event.values[0];
@@ -108,6 +110,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	/*************************************/
     
+	/* lifecycle functions */
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +150,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         	mSensorManager.registerListener(this, mSensor, speedConstants[speed]);
         	Toast.makeText(this, "speed"+speed, Toast.LENGTH_LONG).show();
         }
+        
+        //do measurements
         prepareBubble();
     }
 
@@ -157,8 +163,36 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     
+    /*bubble functions */
     
-    /* function for calibration */
+    void prepareBubble() {
+    	
+    	MediaPlayer mpLeveled = MediaPlayer.create(this, R.raw.clank);
+
+    	 DisplayMetrics metrics = new DisplayMetrics();
+         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+         int width = metrics.widthPixels;
+         int height = metrics.heightPixels;
+
+         layParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    	
+         
+    	bubble = (ImageView) findViewById(R.id.bubble);
+
+    	halfSquareSize = Math.min(width, height)/2;
+    	centerX = width/2;
+    	centerY = height/2;
+    	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+    	//rl.setLayoutParams(params);
+
+    	
+    	
+    	//when the bubble is at the leveled point, place the following method
+    	mpLeveled.start();
+    }
+    
+    
+	/* function for calibration */
     
     public void startCalibration(){
     	//create calibration buffers
@@ -182,10 +216,14 @@ public class MainActivity extends Activity implements SensorEventListener {
     	
     }
     
+    
     public void stopCalibration(){
     	//return handler to displaying so this function isn't called mre than once
     	currentHandler = new DisplayHandler();
 
+    	
+    	//use median as calibration value
+    	
     	Arrays.sort(calibrationBufferX);
     	calX = calibrationBufferX[ BUFFER_SIZE / 2];
     	
@@ -208,6 +246,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     /* callbacks for Sensors */
     
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    	//empty
     }
 
     public void onSensorChanged(SensorEvent event) {
@@ -236,29 +275,5 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     }
     
-    void prepareBubble() {
-    	
-    	MediaPlayer mpLeveled = MediaPlayer.create(this, R.raw.clank);
-
-    	 DisplayMetrics metrics = new DisplayMetrics();
-         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-         int width = metrics.widthPixels;
-         int height = metrics.heightPixels;
-
-         layParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    	
-    	bubble = (ImageView) findViewById(R.id.bubble);
-
-    	halfSquareSize = Math.min(width, height)/2;
-    	centerX = width/2;
-    	centerY = height/2;
-    	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-    	//rl.setLayoutParams(params);
-
-    	
-    	
-    	//when the bubble is at the leveled point, place the following method
-    	mpLeveled.start();
-    }
     
 }
