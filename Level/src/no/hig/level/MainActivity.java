@@ -140,18 +140,22 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onResume() {
         super.onResume();
         if(mSensor != null){
+        	//load preference for sensor speed
         	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         	int speed = Integer.parseInt(prefs.getString("pref_speed", "0"));
         	
+        	calX = prefs.getFloat("calibration_x", 0);
+        	calY = prefs.getFloat("calibration_y", 0);
+        	calZ = prefs.getFloat("calibration_z", 0);
+        	
         	int speedConstants[] = {SensorManager.SENSOR_DELAY_UI,SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_GAME, SensorManager.SENSOR_DELAY_FASTEST };
-
-        	assert(speed < speedConstants.length );
+        	//play it safe
+        	assert(speed < speedConstants.length );	
         	
         	mSensorManager.registerListener(this, mSensor, speedConstants[speed]);
-        	Toast.makeText(this, "speed"+speed, Toast.LENGTH_LONG).show();
         }
         
-        //do measurements
+        //get everything ready
         prepareBubble();
     }
 
@@ -232,6 +236,16 @@ public class MainActivity extends Activity implements SensorEventListener {
     	
     	Arrays.sort(calibrationBufferZ);
     	calZ = calibrationBufferZ[ BUFFER_SIZE / 2];    	
+    	
+    	//save our calibration values
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	SharedPreferences.Editor editor = prefs.edit();
+    	editor.putFloat("calibration_x", calX);
+    	editor.putFloat("calibration_y", calY);
+    	editor.putFloat("calibration_Z", calZ);
+        editor.commit();
+
+    	
     	
     	//hide our dialog
     	calibrationDialog.dismiss();
