@@ -43,7 +43,7 @@
         android:textColor="#FF0000FF" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/bar_vertical"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
@@ -52,7 +52,7 @@
         android:src="@drawable/bubblebar" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/bar_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -60,10 +60,18 @@
         android:src="@drawable/bubblebarhorizontal" />
 
         <ImageView
-        android:id="@+id/bubble"
+        android:id="@+id/bubbley"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60px"
         android:src="@drawable/bubble" />
+        
+        <ImageView
+        android:id="@+id/bubblex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60px"
+        android:src="@drawable/bubble" />
+    
     
 </RelativeLayout>

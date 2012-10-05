@@ -23,6 +23,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -36,8 +37,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private int halfSquareSize;
 	private int centerX;
 	private int centerY;
-	private ImageView bubble;
-	private LayoutParams layParams;
+	private ImageView bubbley;
+	private ImageView bubblex;
+	private LayoutParams layParamsY;
+	private LayoutParams layParamsX;
+	private int verticalBarPosX;
+	private int horizontalBarPosY;
 	
 	private SensorHandler currentHandler;
 	
@@ -86,8 +91,17 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
 	    	
-	    	layParams.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
-	    	bubble.setLayoutParams(layParams);
+	    	//layParams.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
+	    	//bubble moves along the y axis
+	    	layParamsY.setMargins(verticalBarPosX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
+	    	//bubble moves along the X axis
+	    	layParamsX.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, horizontalBarPosY, 0, 0);
+	    
+	    	bubbley.setLayoutParams(layParamsY);
+	    	bubblex.setLayoutParams(layParamsX);
+	    	
+	    	
+
 		}
 	}
 	
@@ -178,10 +192,12 @@ public class MainActivity extends Activity implements SensorEventListener {
          int width = metrics.widthPixels;
          int height = metrics.heightPixels;
 
-         layParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    	
+         layParamsY = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+         layParamsX = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          
-    	bubble = (ImageView) findViewById(R.id.bubble);
+         
+    	bubbley = (ImageView) findViewById(R.id.bubbley);
+    	bubblex = (ImageView) findViewById(R.id.bubblex);
 
     	halfSquareSize = Math.min(width, height)/2;
     	centerX = width/2;
@@ -189,10 +205,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     	//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
     	//rl.setLayoutParams(params);
 
-    	
-    	
+    	//finding the middle of the bubble bars
+    	View verticalBar = findViewById(R.id.bar_vertical);
+    	verticalBarPosX = verticalBar.getLeft() + (verticalBar.getWidth()/2) - bubblex.getWidth()/2;
+
+    	View horizontalBar = findViewById(R.id.bar_horizontal);
+    	horizontalBarPosY = horizontalBar.getTop() + (horizontalBar.getHeight()/2) - bubbley.getHeight()/2 ;   
+    	    	
     	//when the bubble is at the leveled point, place the following method
-    	mpLeveled.start();
+    	//mpLeveled.start();
     }
     
     
