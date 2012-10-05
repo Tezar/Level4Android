@@ -2,6 +2,7 @@ package no.hig.level;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,42 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private int centerY;
 	private ImageView bubble;
 	private LayoutParams layParams;
+	
+	private SensorHandler currentHandler;
+	
+	
+	/////////////////////////////
+
+	interface SensorHandler{
+		void onEvent(SensorEvent event);
+		
+	}
+	
+	class DisplayHandler implements SensorHandler{
+		public void onEvent(SensorEvent event){
+	    	TextView label = (TextView) findViewById(R.id.textView1);
+	    	label.setText( Float.toString(event.values[0]) );
+	    	
+	    	label = (TextView) findViewById(R.id.textView2);
+	    	label.setText( Float.toString(event.values[1]) );
+	    	
+	    	label = (TextView) findViewById(R.id.textView3);
+	    	label.setText( Float.toString(event.values[2]) );
+	    	
+	    	
+	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY+Math.round(squareSize*event.values[1]), 0, 0);
+	    	bubble.setLayoutParams(layParams);
+		}
+	}
+	
+	class CalibrationHandler implements SensorHandler{
+		public void onEvent(SensorEvent event){
+			
+		}
+	}	
+	
+	
+	/*************************************/
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +81,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     		Toast.makeText(this, R.string.sensor_not_found , Toast.LENGTH_LONG).show();
     	}
     	
-    	
+    	currentHandler = new DisplayHandler();
     }
 
     
@@ -74,27 +111,19 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
     }
 
+    
+    
+    /* callbacks for Sensors */
+    
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     public void onSensorChanged(SensorEvent event) {
-    	
-    	TextView label = (TextView) findViewById(R.id.textView1);
-    	label.setText( Float.toString(event.values[0]) );
-    	
-    	label = (TextView) findViewById(R.id.textView2);
-    	label.setText( Float.toString(event.values[1]) );
-    	
-    	label = (TextView) findViewById(R.id.textView3);
-    	label.setText( Float.toString(event.values[2]) );
-    	
-    	
-    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY+Math.round(squareSize*event.values[1]), 0, 0);
-    	bubble.setLayoutParams(layParams);
-    	 	
+    	currentHandler.onEvent(event);
     }
     
     
+    /* menu handling */
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
