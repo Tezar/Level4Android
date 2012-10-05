@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
 	    	
-	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[0]), centerY+Math.round(squareSize*event.values[1]), 0, 0);
+	    	layParams.setMargins(centerX+Math.round(squareSize*event.values[1]), centerY+Math.round(squareSize*event.values[0]), 0, 0);
 	    	bubble.setLayoutParams(layParams);
 		}
 	}
@@ -113,7 +113,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     	}
     	
     	currentHandler = new DisplayHandler();
-    	startCalibration();
     }
 
     
@@ -212,9 +211,12 @@ public class MainActivity extends Activity implements SensorEventListener {
     
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
-	        case R.id.menu_settings:
-	        	startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
-	        return true;
+    		case R.id.menu_settings:
+    			startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+    			return true;
+    		case R.id.menu_calibrate:
+    			startCalibration();
+    			return true;        	
 	        default:
 	        	return super.onOptionsItemSelected(item);
     	}
