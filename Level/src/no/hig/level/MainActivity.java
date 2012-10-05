@@ -24,6 +24,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -206,11 +207,28 @@ public class MainActivity extends Activity implements SensorEventListener {
     	//rl.setLayoutParams(params);
 
     	//finding the middle of the bubble bars
-    	View verticalBar = findViewById(R.id.bar_vertical);
-    	verticalBarPosX = verticalBar.getLeft() + (verticalBar.getWidth()/2) - bubblex.getWidth()/2;
+    	final View verticalBar = findViewById(R.id.bar_vertical);
+    	ViewTreeObserver vto = verticalBar.getViewTreeObserver();
+    	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+    	    public boolean onPreDraw() {
+    	    	verticalBarPosX = verticalBar.getLeft() + (verticalBar.getWidth()/2) - bubblex.getWidth()/2;
 
-    	View horizontalBar = findViewById(R.id.bar_horizontal);
-    	horizontalBarPosY = horizontalBar.getTop() + (horizontalBar.getHeight()/2) - bubbley.getHeight()/2 ;   
+    	        return true;
+    	    }
+    	});
+
+    	final View horizontalBar = findViewById(R.id.bar_horizontal);
+      	vto = horizontalBar.getViewTreeObserver();
+    	vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+    	    public boolean onPreDraw() {
+    	    	horizontalBarPosY = horizontalBar.getTop() + (horizontalBar.getHeight()/2) - bubbley.getHeight()/2 ;
+    	        return true;
+    	    }
+    	});
+    	
+    	
+
+    	
     	    	
     	//when the bubble is at the leveled point, place the following method
     	//mpLeveled.start();
