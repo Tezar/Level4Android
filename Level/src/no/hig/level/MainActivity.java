@@ -77,10 +77,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 	/* Handler for moving bubble around */
 	class DisplayHandler implements SensorHandler{
 		private DecimalFormat df;
+		private MediaPlayer mpLeveled;
+		private boolean leveled = false;
 
 		public DisplayHandler() {
 	    	//formater so we dont have to construct it everytime
 	    	df = new DecimalFormat(" #00.00°;-#00.00°");
+	    	mpLeveled = MediaPlayer.create(MainActivity.this, R.raw.clank);
 		}
 		
 		public void onEvent(SensorEvent event){
@@ -94,7 +97,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 			event.values[1] /= 9.81;
 			event.values[2] /= 9.81;
 			
-	    	TextView label = (TextView) findViewById(R.id.textView1);
+	    	
+			
+			TextView label = (TextView) findViewById(R.id.textView1);
 	    	
 	    	
 	    	
@@ -107,6 +112,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label = (TextView) findViewById(R.id.textView3);
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
+	    	//empirical values
+	    	if( (Math.abs(event.values[0]) > 0.03) || (Math.abs(event.values[1]) > 0.03) ){
+	    		mpLeveled.start();
+	    		
+	    	}
 	    	
 	    	//layParams.setMargins(centerX+Math.round(halfSquareSize*event.values[0])-offX, centerY-Math.round(halfSquareSize*event.values[1])-offY, 0, 0);
 	    	//bubble moves along the y axis
@@ -204,8 +214,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     
     void prepareBubble() {
     	
-    	MediaPlayer mpLeveled = MediaPlayer.create(this, R.raw.clank);
-
         layParamsY = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layParamsX = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          
