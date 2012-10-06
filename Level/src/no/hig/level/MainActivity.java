@@ -112,8 +112,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label.setText( df.format(90-Math.atan2(event.values[2] , event.values[1])/Math.PI*180) );
 	    	
 	    	
-	    	label = (TextView) findViewById(R.id.textView3);
-	    	label.setText( Float.toString(event.values[2]) );
+//	    	label = (TextView) findViewById(R.id.textView3);
+//	    	label.setText( Float.toString(event.values[2]) );
 	    	
 	    	//if alarm check empirical values 
 	    	if(alarm && ( (Math.abs(event.values[0]) > 0.03) || (Math.abs(event.values[1]) > 0.03) ) ){
