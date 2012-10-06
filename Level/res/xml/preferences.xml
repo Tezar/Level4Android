@@ -8,4 +8,5 @@
         android:entryValues="@array/pref_speed_value"
         
         android:defaultValue="0" android:summary="@string/pref_speed_summary"/>
+	<CheckBoxPreference android:summaryOn="@string/level_armed" android:summaryOff="@string/level_disarmed" android:key="pref_sound" android:title="@string/pref_sound_title"/>
 </PreferenceScreen>

@@ -20,6 +20,12 @@
 	<string name="calibrating">Calibrating…</string>
 	
 		<string name="menu_calibrate">Calibrate</string>
+	
+		<string name="level_armed">Play sound if outleveled</string>
+	
+		<string name="level_disarmed">Won\'t play sound even if unleveled</string>
+	
+		<string name="pref_sound_title">Sound (needs restart)</string>
 
     
 </resources>

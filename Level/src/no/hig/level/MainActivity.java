@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	private ProgressDialog  calibrationDialog;
 	private int calibrationPosition;
-	private final int BUFFER_SIZE = 200;
+	private final int BUFFER_SIZE = 30;
 	private float[] calibrationBufferX;
 	private float[] calibrationBufferY;
 	private float[] calibrationBufferZ;
@@ -78,12 +78,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	class DisplayHandler implements SensorHandler{
 		private DecimalFormat df;
 		private MediaPlayer mpLeveled;
-		private boolean leveled = false;
+		private boolean alarm;
 
 		public DisplayHandler() {
 	    	//formater so we dont have to construct it everytime
 	    	df = new DecimalFormat(" #00.00°;-#00.00°");
 	    	mpLeveled = MediaPlayer.create(MainActivity.this, R.raw.clank);
+	    	
+	    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+	    	alarm = prefs.getBoolean("pref_sound", false);
 		}
 		
 		public void onEvent(SensorEvent event){
@@ -112,8 +115,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    	label = (TextView) findViewById(R.id.textView3);
 	    	label.setText( Float.toString(event.values[2]) );
 	    	
-	    	//empirical values
-	    	if( (Math.abs(event.values[0]) > 0.03) || (Math.abs(event.values[1]) > 0.03) ){
+	    	//if alarm check empirical values 
+	    	if(alarm && ( (Math.abs(event.values[0]) > 0.03) || (Math.abs(event.values[1]) > 0.03) ) ){
 	    		mpLeveled.start();
 	    		
 	    	}

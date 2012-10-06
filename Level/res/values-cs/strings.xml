@@ -19,5 +19,11 @@
 	
 		<string name="menu_calibrate">Kalibrace</string>
 
-
+		<string name="level_armed">Přehraj zvuk při nerovnováze</string>
+	
+		<string name="level_disarmed">Nepřehrávej zvuk při nerovnováze</string>
+	
+		<string name="pref_sound_title">Zvuk (vyžaduje restart)</string>
+		
+		
 </resources>
