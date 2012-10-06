@@ -1,6 +1,25 @@
 <resources>
 
+    <string name="app_name">Vater</string>
     <string name="hello_world">Hallo verden!</string>
+    <string name="menu_settings">Innstillinger</string>
     <string name="title_activity_main">Vater</string>
+    <string name="sensor_not_found">Passende sensor ble ikke funnet</string>
+    
+    <string name="preferences_activity_main">Instillinger</string>
+    <string name="pref_speed">Sensor hastighet</string>
+    <string name="pref_speedType">Velg sensor hastiget</string>
+    
+   	<string name="pref_speed_summary">Større hastighet vil gjøre applikasjonen mer responderende, men vil øke batteribruken</string>
+    
+	<string name="pref_optimal">Optimal</string>
+	<string name="pref_normal">Normal</string>
+	<string name="pref_middle">Raskere</string>
+	<string name="pref_fastest">Raskest</string>
+	
+	<string name="calibrating">Kalibrerer…</string>
+	
+		<string name="menu_calibrate">Kalibrer</string>
 
+    
 </resources>
